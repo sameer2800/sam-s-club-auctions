@@ -3,13 +3,10 @@ from bs4 import BeautifulSoup
 from urllib.request import urlretrieve
 from urllib.request import urlopen
 
-# use this image scraper from the location that 
-#you want to save scraped images to
 
 def make_soup(url):
 	html = urlopen(url).read()
 	return BeautifulSoup(html)
-
 
 
 #extracts current  bidding amount from auction.
@@ -26,14 +23,42 @@ def get_auction_name(auction) :
 
 def get_auction_image_link(auction) :
 	link = auction.find('img').get('src')
-	#print(link[2:])
-	return link[2:]
+	#print(link[2:-8])
+	return "http://" + link[2:-8] + "300x300$"
+
+
+def get_auction_end_time(auction) :
+	end_time  = auction.find('span',attrs={'class':'countdown'}).get('data-end-time')
+	#print(end_time[:-9])
+	return end_time[:-9]
 
 def download_image(img_link, auction_id) :
-	
+	if not os.path.exists("../auction_images"):
+		os.system("mkdir ../auction_images")
+
+	file_path = "../auction_images/" + auction_id + ".png"	
+
+	if os.path.exists(file_path):
+		return
+
+	urlretrieve(img_link, file_path)	
 
 
-def get_images2(url):
+def save_auction_details(auction_id, curr_bid_amnt, auction_name ,auction_end_time):
+	if not os.path.exists("../auction_details"):
+		os.system("mkdir ../auction_details")
+
+	file_path = "../auction_details/" + auction_id + ".txt"	
+
+	if os.path.exists(file_path):
+		return
+
+	with open(file_path, "w") as text_file:
+		text_file.write(auction_id + " " + auction_name + " " + curr_bid_amnt + " " + auction_end_time)
+
+
+
+def scraper(url):
 	soup = make_soup(url)
 	#finding  all tags with li having attribute class 'item'
 	auction_list = []
@@ -47,34 +72,14 @@ def get_images2(url):
 		curr_bid_amnt = get_bidding_amnt(auction)
 		auction_name = get_auction_name(auction)
 		auction_img_link = get_auction_image_link(auction)
+		auction_end_time = get_auction_end_time(auction)
 		download_image(auction_img_link, auction_id)
-
-
-	#x = soup.findall('li',attrs={'id':'auction_*'})
-	#images = [img for img in soup.findAll(id = 'auction_3035378')]
-	#print(x)
-	
-
-
-
-def get_images1(url):
-	soup = make_soup(url)
-	#this makes a list of bs4 element tags
-	images = [img for img in soup.findAll('img')]
-	print(images)
-	print (str(len(images)) + "images found.")
-	print('Downloading images to current working directory.')
-	#compile our unicode list of image links
-	image_links = [each.get('src') for each in images]
-	for each in image_links:
-		filename=each.split('/')[-1]
-		urlretrieve(each, filename)
-	return image_links
-
-#a standard call looks like this
-#get_images('http://www.wookmark.com')
-
+		save_auction_details(auction_id, curr_bid_amnt, auction_name ,auction_end_time)
 
 
 if __name__ == '__main__':
-	get_images2("https://auctions.samsclub.com/auction/endingsoon/new/")
+	scraper("https://auctions.samsclub.com/auction/endingsoon/new/?p=1#toolbar")
+	scraper("https://auctions.samsclub.com/auction/endingsoon/new/?p=2#toolbar")
+
+
+
