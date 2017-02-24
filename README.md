@@ -9,6 +9,7 @@ python scraper/samsclubscraper.py
 ###dependencies
 beautifulSoup
 [beautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
 [Urllib](https://docs.python.org/2/library/urllib.html)
 
 
