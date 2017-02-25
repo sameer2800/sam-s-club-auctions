@@ -16,7 +16,7 @@ class Auth :
 		self.auth = tweepy.OAuthHandler(Auth.consumer_key, Auth.consumer_secret)
 		self.auth.set_access_token(Auth.access_token, Auth.access_token_secret)
 		self.api = tweepy.API(self.auth)
-		self.api.update_status('tweepy + oauth!')
+		#self.api.update_status('tweepy + oauth!')
 		return self.api
 
 	
