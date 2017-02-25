@@ -36,8 +36,8 @@ def download_image(img_link, auction_id) :
 	if not os.path.exists("../auction_images"):
 		os.system("mkdir ../auction_images")
 
+		
 	file_path = "../auction_images/" + auction_id + ".png"	
-
 	#if os.path.exists(file_path):
 	#	return
 
@@ -54,7 +54,7 @@ def save_auction_details(auction_id, curr_bid_amnt, auction_name ,auction_end_ti
 	#	return
 
 	with open(file_path, "w") as text_file:
-		text_file.write("Product : " + auction_name + "\n Current Bidding Price : " + curr_bid_amnt + "\n Auction Ends in : " + auction_end_time)
+		text_file.write("Product: " + auction_name[:50] + "\nCurr Bidding Price : " + curr_bid_amnt + "\nAuction Ends in: " + auction_end_time)
 
 
 
