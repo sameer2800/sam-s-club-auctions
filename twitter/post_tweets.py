@@ -14,9 +14,11 @@ def post_tweet(api, image_file , text_file) :
 
 	
 	text= open(text_path,'rb')
+	try :
+		api.update_with_media(image_path, status = text.read())
+	except :
+		print("Unexpected error:")
 
-	api.update_with_media(image_path, status = text.read())
-	
 
 def get_auctiontext_from_image(image) :
 	text = image[:-3] + "txt"
@@ -27,7 +29,7 @@ def fetch_auction_elements(api) :
 
 	i =0;
 	for image_file in image_files :
-		if i == 1 :
+		if i == 4 :
 			break
 
 		auction_text_file = get_auctiontext_from_image(image_file)
