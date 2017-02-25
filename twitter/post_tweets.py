@@ -15,9 +15,10 @@ def post_tweet(api, image_file , text_file) :
 	
 	text= open(text_path,'rb')
 	try :
+		print(image_path)
 		api.update_with_media(image_path, status = text.read())
-	except :
-		print("Unexpected error:")
+	except Exception as e:
+		print("Unexpected error: ",e.message )
 
 
 def get_auctiontext_from_image(image) :
