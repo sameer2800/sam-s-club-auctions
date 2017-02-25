@@ -1,4 +1,5 @@
-from Authorization import Auth
+from Authentication import Auth
+import os
 
 #reads timeline of a twitter handle
 def read_timeline(api) :
@@ -7,8 +8,35 @@ def read_timeline(api) :
 		print(tweet.text)
 
 
+def post_tweet(api, image_file , text_file) :
+	image_path = "../auction_images/" + image_file
+	text_path = "../auction_details/" + text_file
+
+	
+	text= open(text_path,'rb')
+
+	api.update_with_media(image_path, status = text.read())
+	
+
+def get_auctiontext_from_image(image) :
+	text = image[:-3] + "txt"
+	return text
+
+def fetch_auction_elements(api) :
+	image_files = os.listdir("../auction_images")
+
+	i =0;
+	for image_file in image_files :
+		if i == 1 :
+			break
+
+		auction_text_file = get_auctiontext_from_image(image_file)
+		post_tweet(api, image_file, auction_text_file)
+		i += 1
+
 if __name__ == '__main__':
 	auth_instance = Auth()
 	api = auth_instance.authorize()
-	read_timeline(api)
-	#post_tweets() 
+	#read_timeline(api)
+	fetch_auction_elements(api)
+	
