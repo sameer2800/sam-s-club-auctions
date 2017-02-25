@@ -38,8 +38,8 @@ def download_image(img_link, auction_id) :
 
 	file_path = "../auction_images/" + auction_id + ".png"	
 
-	if os.path.exists(file_path):
-		return
+	#if os.path.exists(file_path):
+	#	return
 
 	urlretrieve(img_link, file_path)	
 
@@ -50,11 +50,11 @@ def save_auction_details(auction_id, curr_bid_amnt, auction_name ,auction_end_ti
 
 	file_path = "../auction_details/" + auction_id + ".txt"	
 
-	if os.path.exists(file_path):
-		return
+	#if os.path.exists(file_path):
+	#	return
 
 	with open(file_path, "w") as text_file:
-		text_file.write(auction_id + " " + auction_name + " " + curr_bid_amnt + " " + auction_end_time)
+		text_file.write("Product : " + auction_name + "\n Current Bidding Price : " + curr_bid_amnt + "\n Auction Ends in : " + auction_end_time)
 
 
 
