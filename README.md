@@ -1,7 +1,7 @@
 # sam-s-club-auctions
 Members of sam's club can bid on a product listed in auctions site . The following automated scripts makes users work painless. All they need is a twitter account and guts to reply with their bid value on tweets posted by sam's club . Doesn't this sounds awesome ? 
 
-![Alt text](/utils/iScreen Shot 2017-02-25 at 8.38.03 PM.png?raw=true "Image 1")
+![Alt text](/utils/image1.png?raw=true "Image 1")
  
 
 ## Scraper
