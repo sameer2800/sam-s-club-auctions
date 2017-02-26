@@ -12,6 +12,7 @@ The script reads all the auction images and its details from the corresponding a
 
 ##Installation
 python3 samsclubscraper.py
+
 python3 ../twitter/post_tweets.py
 
 
