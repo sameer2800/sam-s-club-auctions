@@ -35,7 +35,6 @@ def get_auction_end_time(auction) :
 def download_image(img_link, auction_id) :
 	if not os.path.exists("../auction_images"):
 		os.system("mkdir ../auction_images")
-
 		
 	file_path = "../auction_images/" + auction_id + ".png"	
 	#if os.path.exists(file_path):

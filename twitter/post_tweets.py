@@ -1,6 +1,7 @@
 from Authentication import Auth
 import os
 
+
 #reads timeline of a twitter handle
 def read_timeline(api) :
 	public_tweets = api.home_timeline()
@@ -37,9 +38,13 @@ def fetch_auction_elements(api) :
 		post_tweet(api, image_file, auction_text_file)
 		i += 1
 
+def post_dummy(api) :
+	status = api.update_status("hey everyone")
+	print(status)
+
 if __name__ == '__main__':
-	auth_instance = Auth()
+	auth_instance = Auth("Nr8NWrnIr1huPmlTy3OFfizCl", "94MmEh9HSAGIiolIGSb6hBXXGlFM9weMZNrGjKs6hhJEoNfolr","835036132773605377-ChnMv7F4s7DO6eG1BbKVafgZjYBf1at","jiKWm8tUzXAXuY0ovxc7XWnsbdGj60frsBLUdVIuya7Hr")
 	api = auth_instance.authorize()
 	#read_timeline(api)
-	fetch_auction_elements(api)
-	
+	#fetch_auction_elements(api)
+	#post_dummy(api)
