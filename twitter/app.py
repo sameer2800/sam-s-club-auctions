@@ -3,8 +3,9 @@ from flask import Flask, request, jsonify
 from flask import json
 from Authenticate_keys import Authenticate_keys
 from create_tweet import create_tweet
-
-
+from fetch_replies_from_tweet import fetch_replies_of_tweet
+from create_new_reply import create_new_reply
+from winner_tweet import winner_tweet
 
 app = Flask(__name__)
 
@@ -50,16 +51,56 @@ def createTweet():
 #def parseTweet():
 
 
-#@app.route('/auction/get-latest-replies', methods=['POST'])    
-#def getList():
+@app.route('/auction/get-all-replies', methods=['POST'])    
+def getList():
+	if request.headers['Content-Type'] == 'application/json':		
+		inputData = request.json
+		auction_id = inputData["auction_id"]
+		replies = fetch_replies_of_tweet(api,auction_id)
+		data = {}
+		data['replies'] = replies
+		json_data = json.dumps(data)
+		return json_data		
 
 
-#@app.route('/auction/create-reply', methods=['POST'])    
-#def createReply():
+@app.route('/auction/create-reply', methods=['POST'])    
+def createReply():
+	if request.headers['Content-Type'] == 'application/json':		
+		inputData = request.json
+		tweet_id = inputData["tweet_id"]
+		auction_id = inputData["auction_id"]
+		bid_value = inputData["bid_value"]
 
-#@app.route('/auction/create-winner-tweet', methods=['POST'])    
-#def createWinnerTweet():
+		create_new_reply(api, tweet_id, auction_id, bid_value)
+		data = {}
+		data['status'] = 200
+		json_data = json.dumps(data)
+		return json_data
 
+		
+@app.route('/auction/create-winner-tweet', methods=['POST'])    
+def createWinnerTweet():
+	if request.headers['Content-Type'] == 'application/json':		
+		inputData = request.json
+		auction_id = inputData["auction_id"]
+		product_name = inputData["product_name"]
+		image_url = inputData["image_url"]
+		product_url = inputData["product_url"]
+		winner_handle = inputData["winner_handle"]		
+		winner_tweet(api, winner_handle, auction_id,image_url, product_url , product_name)	
+		data = {}
+		data['status'] = 200
+		json_data = json.dumps(data)
+		return json_data
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run(host='127.0.0.1', port=8016, debug=True)
+
+
+
+
+
+
+
+

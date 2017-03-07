@@ -8,7 +8,42 @@ def extract_amount_from_tweet(tweet):
 	amount = [word for word in tweet.split() if word.startswith('$')]
 	return amount[0]
 
-def fetch_replies_of_tweet(auction_id):
+
+def jsonize(data) :
+	
+	jsonz = []
+
+	for key ,value in data.items() :
+		dictn = dict()
+		dictn['username'] = key
+		dictn['bids'] = value
+		jsonz.append(dictn)
+
+	return jsonz	
+
+def fetch_replies_of_tweet(api,auction_id):
+	
+	replies = api.search(q="#"+ auction_id)
+	
+	dictnry = dict()	
+
+	for reply in replies :
+		tweet = reply.text
+		amount = extract_amount_from_tweet(tweet)
+		author =reply.author._json['screen_name']
+		if author in dictnry:
+			dictnry[author].append(amount)
+		else :			
+			dictnry[author] = []
+			dictnry[author].append(amount)
+
+
+
+	#return dictnry	
+	return jsonize(dictnry)
+
+
+def fetch_replies_of_tweet1(auction_id):
 	auth_instance = Auth("Nr8NWrnIr1huPmlTy3OFfizCl", "94MmEh9HSAGIiolIGSb6hBXXGlFM9weMZNrGjKs6hhJEoNfolr","835036132773605377-ChnMv7F4s7DO6eG1BbKVafgZjYBf1at","jiKWm8tUzXAXuY0ovxc7XWnsbdGj60frsBLUdVIuya7Hr")
 	api = auth_instance.authorize()
 
@@ -21,15 +56,15 @@ def fetch_replies_of_tweet(auction_id):
 		amount = extract_amount_from_tweet(tweet)
 		author =reply.author._json['screen_name']
 		if author in dictnry:
-			dictnry[author].add(amount)
+			dictnry[author].append(amount)
 		else :			
-			dictnry[author] = set()
-			dictnry[author].add(amount)
+			dictnry[author] = []
+			dictnry[author].append(amount)
 
 
 
-	return dictnry	
-
+	#return dictnry	
+	return jsonize(dictnry)	
 
 def user_timeline() :
 	auth_instance = Auth("Nr8NWrnIr1huPmlTy3OFfizCl", "94MmEh9HSAGIiolIGSb6hBXXGlFM9weMZNrGjKs6hhJEoNfolr","835036132773605377-ChnMv7F4s7DO6eG1BbKVafgZjYBf1at","jiKWm8tUzXAXuY0ovxc7XWnsbdGj60frsBLUdVIuya7Hr")
